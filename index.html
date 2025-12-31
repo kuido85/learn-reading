@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="et">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Õpi lugema!</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Comic Sans MS', 'Segoe UI', Arial, sans-serif;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .container {
+            text-align: center;
+            padding: 20px;
+        }
+
+        h1 {
+            color: white;
+            font-size: 3rem;
+            margin-bottom: 40px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .menu {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            align-items: center;
+        }
+
+        .menu-btn {
+            font-size: 1.8rem;
+            padding: 20px 50px;
+            border: none;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            font-weight: bold;
+            min-width: 300px;
+        }
+
+        .menu-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+        }
+
+        .btn-3 {
+            background: #FF6B6B;
+            color: white;
+        }
+
+        .btn-4 {
+            background: #4ECDC4;
+            color: white;
+        }
+
+        .btn-5 {
+            background: #FFE66D;
+            color: #333;
+        }
+
+        .btn-6 {
+            background: #95E1D3;
+            color: #333;
+        }
+
+        /* Word display screen */
+        .word-screen {
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 80vh;
+        }
+
+        .word-display {
+            font-size: 8rem;
+            font-weight: bold;
+            color: white;
+            text-shadow: 4px 4px 8px rgba(0,0,0,0.3);
+            margin-bottom: 60px;
+            letter-spacing: 0.1em;
+            animation: fadeIn 0.5s ease;
+            text-transform: uppercase;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: scale(0.8);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        .next-btn {
+            font-size: 2rem;
+            padding: 20px 60px;
+            background: #FF6B6B;
+            color: white;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+
+        .next-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+        }
+
+        .back-btn {
+            font-size: 1.2rem;
+            padding: 10px 30px;
+            background: rgba(255,255,255,0.2);
+            color: white;
+            border: 2px solid white;
+            border-radius: 15px;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .back-btn:hover {
+            background: rgba(255,255,255,0.3);
+        }
+
+        @media (max-width: 600px) {
+            h1 {
+                font-size: 2rem;
+            }
+            .menu-btn {
+                font-size: 1.4rem;
+                padding: 15px 30px;
+                min-width: 250px;
+            }
+            .word-display {
+                font-size: 4rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Menu screen -->
+        <div class="menu-screen" id="menuScreen">
+            <h1>Õpi lugema!</h1>
+            <div class="menu">
+                <button class="menu-btn btn-3" onclick="startGame(3)">3 tähte</button>
+                <button class="menu-btn btn-4" onclick="startGame(4)">4 tähte</button>
+                <button class="menu-btn btn-5" onclick="startGame(5)">5 tähte</button>
+                <button class="menu-btn btn-6" onclick="startGame(6)">6+ tähte</button>
+            </div>
+        </div>
+
+        <!-- Word display screen -->
+        <div class="word-screen" id="wordScreen">
+            <div class="word-display" id="wordDisplay"></div>
+            <button class="next-btn" onclick="nextWord()">Järgmine</button>
+            <button class="back-btn" onclick="goBack()">← Tagasi</button>
+        </div>
+    </div>
+
+    <script>
+        // Estonian words organized by length
+        const words = {
+            3: [
+                'ema', 'isa', 'onu', 'tädi', 'koer', 'kass', 'hiir', 'kala',
+                'lind', 'puu', 'maa', 'tee', 'suu', 'pea', 'käsi', 'jalg',
+                'silm', 'kõrv', 'nina', 'sõrm', 'ahi', 'uks', 'aken', 'tool',
+                'laud', 'voodi', 'lamp', 'pott', 'tass', 'nuga', 'kahvel',
+                'ots', 'osa', 'aeg', 'öö', 'päev', 'kuu', 'aasta', 'suvi',
+                'sügis', 'talv', 'kevad', 'lumi', 'jää', 'vesi', 'tuli',
+                'tuul', 'pilv', 'päike', 'kuu', 'täht', 'mets', 'aed',
+                'õun', 'pirn', 'muna', 'piim', 'leib', 'sai', 'juust',
+                'liha', 'kana', 'part', 'hani', 'siga', 'lammas', 'lehm',
+                'hobune', 'konn', 'uss', 'ämblik', 'sipelgas', 'mesilane',
+                'auto', 'rong', 'buss', 'laev', 'lennuk', 'jalgratas',
+                'maja', 'kodu', 'tuba', 'köök', 'wc', 'saun', 'kelder',
+                'pood', 'kool', 'raamatukogu', 'haigla', 'apteek',
+                'üks', 'kaks', 'kolm', 'neli', 'viis', 'kuus', 'seitse',
+                'kaheksa', 'üheksa', 'kümme', 'sada', 'tuhat',
+                'ilus', 'suur', 'väike', 'pikk', 'lühike', 'lai', 'kitsas',
+                'hea', 'halb', 'uus', 'vana', 'noor', 'kuum', 'külm',
+                'söö', 'joo', 'maga', 'istu', 'seisa', 'käi', 'jookse',
+                'hüppa', 'uisu', 'loe', 'kirjuta', 'joonista', 'laula',
+                'tantsi', 'mängi', 'õpi', 'tööta', 'puhka'
+            ].filter(w => w.length === 3),
+
+            4: [
+                'kass', 'koer', 'hiir', 'kala', 'lind', 'karu', 'hunt',
+                'rebane', 'jänes', 'orav', 'siil', 'mutt', 'nahkhiir',
+                'konn', 'lepatriinu', 'liblikas', 'sipelgas', 'mesilane',
+                'käsi', 'jalg', 'peas', 'nina', 'sõrm', 'hammas', 'keel',
+                'süda', 'kõht', 'selg', 'nahk', 'juus', 'silm', 'kõrv',
+                'maja', 'kodu', 'tuba', 'saun', 'aed', 'tee', 'sild',
+                'mets', 'jõgi', 'järv', 'meri', 'rand', 'mägi', 'org',
+                'päev', 'öine', 'hommik', 'õhtu', 'suvi', 'talv', 'lumi',
+                'vihm', 'tuul', 'pilv', 'päike', 'kuu', 'täht',
+                'ilus', 'suur', 'heas', 'uusi', 'vana', 'noor', 'kuum',
+                'külm', 'pime', 'hele', 'must', 'valge', 'punane', 'sinine',
+                'kollane', 'roheline', 'pruun', 'hall', 'roosa', 'oranž',
+                'laua', 'tool', 'voodi', 'kapp', 'lamp', 'peegel', 'kardin',
+                'vaip', 'pilt', 'kell', 'uks', 'aken', 'sein', 'põrand',
+                'leib', 'piim', 'muna', 'liha', 'kala', 'juust', 'võid',
+                'sool', 'suhkur', 'jahu', 'riis', 'tatar', 'kaerahelbid'
+            ].filter(w => w.length === 4),
+
+            5: [
+                'emake', 'isake', 'lapse', 'poisi', 'tüdruk', 'vanem',
+                'koera', 'kassi', 'hiire', 'linnu', 'kalad', 'karul',
+                'hunti', 'rebas', 'jänes', 'orava', 'siili', 'konna',
+                'hobune', 'lehma', 'lammas', 'kitse', 'konn', 'kana',
+                'majal', 'kodul', 'tubas', 'saunas', 'aedas', 'teele',
+                'metsa', 'järve', 'merel', 'ranna', 'mäele', 'orust',
+                'päeva', 'öösel', 'suvel', 'talve', 'lumega', 'vihmaga',
+                'tuulega', 'päikese', 'kuuga', 'tähte', 'pilve',
+                'ilusa', 'suure', 'väikese', 'heast', 'uuest', 'vanal',
+                'noore', 'kuuma', 'külma', 'pimeda', 'heleda', 'musta',
+                'valge', 'punase', 'sinise', 'kollase', 'rohelise',
+                'laual', 'tooli', 'voodi', 'kappi', 'lambi', 'peegli',
+                'kardina', 'vaiba', 'pilti', 'kella', 'uksel', 'aknal',
+                'leiva', 'piima', 'munaga', 'lihaga', 'kalaga', 'juustu',
+                'võiga', 'soola', 'suhkru', 'jahuga', 'riisi', 'tatart'
+            ].filter(w => w.length === 5),
+
+            6: [
+                'emakene', 'isakene', 'lapseke', 'poisike', 'tüdrukuke',
+                'vanemad', 'vanaema', 'vanaisa', 'õdekene', 'veneke',
+                'koerake', 'kassike', 'hiireke', 'linnuke', 'kalake',
+                'karuke', 'hundike', 'rebaseke', 'jäneseke', 'oravake',
+                'hobuseke', 'lehmake', 'lambake', 'kitseke', 'konnake',
+                'majake', 'koduke', 'tubake', 'saunake', 'aedake',
+                'metsake', 'järveke', 'mereke', 'rannake', 'mägeke',
+                'päevake', 'ööke', 'suveke', 'talveke', 'lumeke',
+                'vihmake', 'tuuleke', 'päikeseke', 'kuuke', 'täheke',
+                'ilusake', 'suureke', 'väikeseke', 'heake', 'uueke',
+                'vanake', 'nooreke', 'kuumake', 'külmake', 'pimedake',
+                'heledake', 'mustake', 'valgeke', 'punaseke', 'siniseke',
+                'lauake', 'toolike', 'voodike', 'kappike', 'lambike',
+                'leibake', 'piimake', 'munake', 'lihake', 'kalake',
+                'raamat', 'pliiats', 'kustukumm', 'vihik', 'koolikott',
+                'arvuti', 'telefon', 'televiisor', 'raadio', 'muusika',
+                'joonistus', 'maaling', 'foto', 'video', 'mäng',
+                'jalgratas', 'tõukeratas', 'rulluisud', 'uisud', 'suusad',
+                'kelk', 'pall', 'nukk', 'auto', 'lennuk', 'laev', 'rong',
+                'kiik', 'liivakast', 'ronimispuu', 'liumägi',
+                'hommikusöök', 'lõunasöök', 'õhtusöök', 'vahepala',
+                'puder', 'supp', 'praad', 'salat', 'magustoit',
+                'jäätis', 'kook', 'küpsis', 'komm', 'šokolaad',
+                'apelsin', 'banaan', 'õunamahl', 'pirnimahl', 'maasikas',
+                'vaarikas', 'mustikas', 'pohl', 'jõhvikas'
+            ].filter(w => w.length >= 6)
+        };
+
+        // Add more common Estonian words
+        words[3] = ['ema', 'isa', 'onu', 'puu', 'maa', 'tee', 'suu', 'pea', 'ahi', 'uks', 'ots', 'osa', 'aeg', 'jää', 'õun', 'sai', 'auto', 'söö', 'joo', 'loe', 'õpi', 'too', 'tule', 'mine', 'ole', 'tea', 'näe', 'kuule', 'räägi'];
+        words[3] = words[3].filter(w => w.length === 3);
+
+        words[4] = ['kass', 'koer', 'hiir', 'kala', 'lind', 'karu', 'hunt', 'maja', 'kodu', 'tuba', 'saun', 'mets', 'jõgi', 'järv', 'meri', 'rand', 'päev', 'lumi', 'vihm', 'tuul', 'pilv', 'kuum', 'külm', 'must', 'leib', 'piim', 'muna', 'liha', 'sool', 'jalg', 'käsi', 'nina', 'silm', 'kõrv', 'pood', 'kool', 'rong', 'buss', 'laev', 'tool', 'lamp', 'kell', 'sein', 'õues', 'sees', 'peal', 'all', 'kõrval'];
+        words[4] = words[4].filter(w => w.length === 4);
+
+        words[5] = ['hobune', 'lehma', 'lammas', 'kitse', 'orav', 'siil', 'konn', 'kilpkonn', 'liblikas', 'sipelgas', 'jänes', 'rebane', 'kukk', 'part', 'hani', 'luik', 'haigur', 'kotkas', 'kull', 'öökull', 'vares', 'varblane', 'tihane', 'pääsuke', 'kägu', 'rähn', 'tuvi', 'kajakas', 'luige', 'suur', 'väike', 'pikk', 'ilus', 'naljakas', 'kurb', 'rõõmus', 'vihane', 'väsinud', 'näljane', 'janune', 'unine', 'terve', 'haige', 'tugev', 'nõrk', 'kiire', 'aeglane', 'tark', 'rumal', 'julge', 'arg', 'hea', 'halb', 'kena', 'kole', 'armas', 'õel', 'lahke', 'kuri', 'vaikne', 'vali', 'pehme', 'kõva', 'märg', 'kuiv', 'puhas', 'must'];
+        words[5] = words[5].filter(w => w.length === 5);
+
+        words[6] = ['vanaema', 'vanaisa', 'emme', 'issi', 'õde', 'vend', 'tädi', 'onu', 'nõbu', 'sõber', 'sõbranna', 'naaber', 'õpetaja', 'arst', 'kokk', 'müüja', 'juuksur', 'politseinik', 'tuletõrjuja', 'ehitaja', 'autojuht', 'lennuki', 'kapten', 'laevnik', 'kunstnik', 'kirjanik', 'laulja', 'tantsija', 'näitleja', 'sportlane', 'jalgrattur', 'suusataja', 'uisutaja', 'ujuja', 'jooksja', 'hüppaja', 'korvpallur', 'jalgpallur', 'tennisist', 'maletaja', 'kalastaja', 'jahimees', 'aednik', 'farmer', 'loomaarst', 'raamat', 'pliiats', 'pastapliiats', 'vildik', 'pintsel', 'joonlaud', 'käärid', 'liim', 'kustukumm', 'teritaja', 'vihik', 'kaustik', 'päevik', 'õpik', 'töövihik', 'sõnaraamat', 'entsüklopeedia', 'ajakiri', 'ajaleht', 'koolikott', 'ranits', 'pinal', 'riidekapp', 'sahtlid', 'laud', 'tool', 'tugitool', 'diivan', 'voodi', 'madrats', 'padi', 'tekk', 'lina', 'vaip', 'kardin', 'lamp', 'lühter', 'peegel', 'pilt', 'foto', 'kell', 'televiisor', 'raadio', 'arvuti', 'tahvelarvuti', 'nutitelefon', 'kõrvaklapid', 'laadija', 'juhe', 'pistik', 'lüliti', 'külmkapp', 'sügavkülmik', 'pliit', 'ahi', 'mikrolaineahi', 'veekeetja', 'kohvimasin', 'röster', 'mikser', 'tolmuimeja', 'pesumasin', 'nõudepesumasin', 'triikraud'];
+        words[6] = words[6].filter(w => w.length >= 6);
+
+        let currentCategory = null;
+        let usedWords = [];
+
+        function startGame(category) {
+            currentCategory = category;
+            usedWords = [];
+            document.getElementById('menuScreen').style.display = 'none';
+            document.getElementById('wordScreen').style.display = 'flex';
+            nextWord();
+        }
+
+        function nextWord() {
+            const wordList = words[currentCategory];
+
+            // Reset if all words have been used
+            if (usedWords.length >= wordList.length) {
+                usedWords = [];
+            }
+
+            // Get available words
+            const availableWords = wordList.filter(w => !usedWords.includes(w));
+
+            // Pick random word
+            const randomIndex = Math.floor(Math.random() * availableWords.length);
+            const word = availableWords[randomIndex];
+            usedWords.push(word);
+
+            // Display with animation
+            const display = document.getElementById('wordDisplay');
+            display.style.animation = 'none';
+            display.offsetHeight; // Trigger reflow
+            display.style.animation = 'fadeIn 0.5s ease';
+            display.textContent = word;
+
+            // Random color for each word
+            const colors = ['#FFE66D', '#FF6B6B', '#4ECDC4', '#95E1D3', '#F8B500', '#FF8C00', '#00CED1', '#FF69B4'];
+            display.style.color = colors[Math.floor(Math.random() * colors.length)];
+        }
+
+        function goBack() {
+            document.getElementById('wordScreen').style.display = 'none';
+            document.getElementById('menuScreen').style.display = 'block';
+            currentCategory = null;
+            usedWords = [];
+        }
+    </script>
+</body>
+</html>
