@@ -425,12 +425,11 @@
 
             // Calculate font size dynamically based on word length and viewport width
             const viewportWidth = window.innerWidth;
-            const availableWidth = viewportWidth * 0.9; // 90% of viewport
-            const letterSpacing = 1.05; // Account for letter-spacing
-            const charWidthRatio = 0.65; // Approximate width/height ratio for uppercase letters
+            const availableWidth = viewportWidth * 0.65;
+            const charWidthRatio = 0.75; // Approximate width/height ratio for uppercase letters
 
             // Calculate max font size that fits the word
-            const maxFontSize = availableWidth / (word.length * charWidthRatio * letterSpacing);
+            const maxFontSize = availableWidth / (word.length * charWidthRatio);
 
             // Cap at reasonable max/min sizes
             const cappedFontSize = Math.min(Math.max(maxFontSize, 14), 150);
@@ -455,11 +454,10 @@
             if (!word) return;
 
             const viewportWidth = window.innerWidth;
-            const availableWidth = viewportWidth * 0.9;
-            const letterSpacing = 1.05;
-            const charWidthRatio = 0.65;
+            const availableWidth = viewportWidth * 0.65;
+            const charWidthRatio = 0.75;
 
-            const maxFontSize = availableWidth / (word.length * charWidthRatio * letterSpacing);
+            const maxFontSize = availableWidth / (word.length * charWidthRatio);
             const cappedFontSize = Math.min(Math.max(maxFontSize, 14), 150);
             display.style.fontSize = cappedFontSize + 'px';
         }
