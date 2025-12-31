@@ -85,16 +85,15 @@
         }
 
         .word-display {
-            font-size: 8rem;
             font-weight: bold;
             color: white;
             text-shadow: 4px 4px 8px rgba(0,0,0,0.3);
             margin-bottom: 60px;
-            letter-spacing: 0.1em;
+            letter-spacing: 0.05em;
             animation: fadeIn 0.5s ease;
             text-transform: uppercase;
             max-width: 95vw;
-            word-wrap: break-word;
+            white-space: nowrap;
             padding: 0 10px;
         }
 
@@ -150,9 +149,6 @@
                 font-size: 1.4rem;
                 padding: 15px 30px;
                 min-width: 250px;
-            }
-            .word-display {
-                font-size: 4rem;
             }
         }
     </style>
@@ -286,7 +282,7 @@
             'raha', 'aega', 'õhtu', 'päev', 'kiri', 'pidu'
         ].filter(w => w.length === 4);
 
-        var random_words = [
+        const random_words = [
             // Loomad
             'jänes', 'orav', 'kartul', 'hobune', 'koeral', 'kassil', 'ahven', 'suhkur', 'valge', 'pruun',
             // Õiged nimetavad:
@@ -427,18 +423,18 @@
             display.style.animation = 'fadeIn 0.5s ease';
             display.textContent = word;
 
-            // Adjust font size based on word length
-            if (word.length <= 5) {
-                display.style.fontSize = '8rem';
-            } else if (word.length <= 7) {
-                display.style.fontSize = '6rem';
-            } else if (word.length <= 10) {
-                display.style.fontSize = '4.5rem';
-            } else if (word.length <= 13) {
-                display.style.fontSize = '3.5rem';
-            } else {
-                display.style.fontSize = '2.5rem';
-            }
+            // Calculate font size dynamically based on word length and viewport width
+            const viewportWidth = window.innerWidth;
+            const availableWidth = viewportWidth * 0.9; // 90% of viewport
+            const letterSpacing = 1.05; // Account for letter-spacing
+            const charWidthRatio = 0.65; // Approximate width/height ratio for uppercase letters
+
+            // Calculate max font size that fits the word
+            const maxFontSize = availableWidth / (word.length * charWidthRatio * letterSpacing);
+
+            // Cap at reasonable max/min sizes
+            const cappedFontSize = Math.min(Math.max(maxFontSize, 14), 150);
+            display.style.fontSize = cappedFontSize + 'px';
 
             // Random color for each word
             const colors = ['#FFE66D', '#FF6B6B', '#4ECDC4', '#95E1D3', '#F8B500', '#FF8C00', '#00CED1', '#FF69B4'];
@@ -451,6 +447,27 @@
             currentCategory = null;
             usedWords = [];
         }
+
+        // Recalculate font size on window resize/orientation change
+        function updateFontSize() {
+            const display = document.getElementById('wordDisplay');
+            const word = display.textContent;
+            if (!word) return;
+
+            const viewportWidth = window.innerWidth;
+            const availableWidth = viewportWidth * 0.9;
+            const letterSpacing = 1.05;
+            const charWidthRatio = 0.65;
+
+            const maxFontSize = availableWidth / (word.length * charWidthRatio * letterSpacing);
+            const cappedFontSize = Math.min(Math.max(maxFontSize, 14), 150);
+            display.style.fontSize = cappedFontSize + 'px';
+        }
+
+        window.addEventListener('resize', updateFontSize);
+        window.addEventListener('orientationchange', function() {
+            setTimeout(updateFontSize, 100);
+        });
     </script>
 </body>
 </html>
