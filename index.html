@@ -93,6 +93,9 @@
             letter-spacing: 0.1em;
             animation: fadeIn 0.5s ease;
             text-transform: uppercase;
+            max-width: 95vw;
+            word-wrap: break-word;
+            padding: 0 10px;
         }
 
         @keyframes fadeIn {
@@ -176,109 +179,219 @@
     </div>
 
     <script>
-        // Estonian words organized by length
+        // Estonian words in nominative case (nimetav kääne)
         const words = {
+            // 3-letter words
             3: [
-                'ema', 'isa', 'onu', 'tädi', 'koer', 'kass', 'hiir', 'kala',
-                'lind', 'puu', 'maa', 'tee', 'suu', 'pea', 'käsi', 'jalg',
-                'silm', 'kõrv', 'nina', 'sõrm', 'ahi', 'uks', 'aken', 'tool',
-                'laud', 'voodi', 'lamp', 'pott', 'tass', 'nuga', 'kahvel',
-                'ots', 'osa', 'aeg', 'öö', 'päev', 'kuu', 'aasta', 'suvi',
-                'sügis', 'talv', 'kevad', 'lumi', 'jää', 'vesi', 'tuli',
-                'tuul', 'pilv', 'päike', 'kuu', 'täht', 'mets', 'aed',
-                'õun', 'pirn', 'muna', 'piim', 'leib', 'sai', 'juust',
-                'liha', 'kana', 'part', 'hani', 'siga', 'lammas', 'lehm',
-                'hobune', 'konn', 'uss', 'ämblik', 'sipelgas', 'mesilane',
-                'auto', 'rong', 'buss', 'laev', 'lennuk', 'jalgratas',
-                'maja', 'kodu', 'tuba', 'köök', 'wc', 'saun', 'kelder',
-                'pood', 'kool', 'raamatukogu', 'haigla', 'apteek',
-                'üks', 'kaks', 'kolm', 'neli', 'viis', 'kuus', 'seitse',
-                'kaheksa', 'üheksa', 'kümme', 'sada', 'tuhat',
-                'ilus', 'suur', 'väike', 'pikk', 'lühike', 'lai', 'kitsas',
-                'hea', 'halb', 'uus', 'vana', 'noor', 'kuum', 'külm',
-                'söö', 'joo', 'maga', 'istu', 'seisa', 'käi', 'jookse',
-                'hüppa', 'uisu', 'loe', 'kirjuta', 'joonista', 'laula',
-                'tantsi', 'mängi', 'õpi', 'tööta', 'puhka'
-            ].filter(w => w.length === 3),
+                // Perekond
+                'ema', 'isa', 'onu',
+                // Loodus
+                'puu', 'maa', 'tee', 'aed', 'org', 'soo', 'oja',
+                // Kehaosad
+                'suu', 'pea', 'käe', 'kõht',
+                // Toit
+                'sai', 'tee', 'sup',
+                // Loomad
+                'uss', 'koi',
+                // Esemed
+                'ahi', 'uks', 'võti', 'ike',
+                // Muu
+                'ots', 'osa', 'aeg', 'öö', 'jää', 'õun', 'mäe'
+            ],
 
+            // 4-letter words
             4: [
-                'kass', 'koer', 'hiir', 'kala', 'lind', 'karu', 'hunt',
-                'rebane', 'jänes', 'orav', 'siil', 'mutt', 'nahkhiir',
-                'konn', 'lepatriinu', 'liblikas', 'sipelgas', 'mesilane',
-                'käsi', 'jalg', 'peas', 'nina', 'sõrm', 'hammas', 'keel',
-                'süda', 'kõht', 'selg', 'nahk', 'juus', 'silm', 'kõrv',
-                'maja', 'kodu', 'tuba', 'saun', 'aed', 'tee', 'sild',
-                'mets', 'jõgi', 'järv', 'meri', 'rand', 'mägi', 'org',
-                'päev', 'öine', 'hommik', 'õhtu', 'suvi', 'talv', 'lumi',
-                'vihm', 'tuul', 'pilv', 'päike', 'kuu', 'täht',
-                'ilus', 'suur', 'heas', 'uusi', 'vana', 'noor', 'kuum',
-                'külm', 'pime', 'hele', 'must', 'valge', 'punane', 'sinine',
-                'kollane', 'roheline', 'pruun', 'hall', 'roosa', 'oranž',
-                'laua', 'tool', 'voodi', 'kapp', 'lamp', 'peegel', 'kardin',
-                'vaip', 'pilt', 'kell', 'uks', 'aken', 'sein', 'põrand',
-                'leib', 'piim', 'muna', 'liha', 'kala', 'juust', 'võid',
-                'sool', 'suhkur', 'jahu', 'riis', 'tatar', 'kaerahelbid'
-            ].filter(w => w.length === 4),
+                // Loomad
+                'kass', 'koer', 'hiir', 'kala', 'lind', 'karu', 'hunt', 'orav', 'siil', 'konn', 'part', 'hani', 'siga', 'lehm', 'kits', 'lammas',
+                // Kehaosad
+                'jalg', 'käsi', 'nina', 'silm', 'kõrv', 'sõrm', 'kael', 'selg', 'nahk', 'keel', 'süda',
+                // Hooned ja kohad
+                'maja', 'kodu', 'tuba', 'saun', 'mets', 'rand', 'sild', 'pood', 'kool', 'kiik',
+                // Loodus
+                'jõgi', 'järv', 'meri', 'mägi', 'pilv', 'lumi', 'vihm', 'tuul', 'päev',
+                // Toit
+                'leib', 'piim', 'muna', 'liha', 'sool', 'kook', 'supp', 'putr',
+                // Esemed
+                'tool', 'lamp', 'kell', 'sein', 'pilt', 'vaip', 'kapp', 'pall', 'nukk', 'kelk',
+                // Transport
+                'rong', 'buss', 'laev', 'auto',
+                // Muu
+                'raha', 'aega', 'õhtu', 'täht'
+            ],
 
+            // 5-letter words
             5: [
-                'emake', 'isake', 'lapse', 'poisi', 'tüdruk', 'vanem',
-                'koera', 'kassi', 'hiire', 'linnu', 'kalad', 'karul',
-                'hunti', 'rebas', 'jänes', 'orava', 'siili', 'konna',
-                'hobune', 'lehma', 'lammas', 'kitse', 'konn', 'kana',
-                'majal', 'kodul', 'tubas', 'saunas', 'aedas', 'teele',
-                'metsa', 'järve', 'merel', 'ranna', 'mäele', 'orust',
-                'päeva', 'öösel', 'suvel', 'talve', 'lumega', 'vihmaga',
-                'tuulega', 'päikese', 'kuuga', 'tähte', 'pilve',
-                'ilusa', 'suure', 'väikese', 'heast', 'uuest', 'vanal',
-                'noore', 'kuuma', 'külma', 'pimeda', 'heleda', 'musta',
-                'valge', 'punase', 'sinise', 'kollase', 'rohelise',
-                'laual', 'tooli', 'voodi', 'kappi', 'lambi', 'peegli',
-                'kardina', 'vaiba', 'pilti', 'kella', 'uksel', 'aknal',
-                'leiva', 'piima', 'munaga', 'lihaga', 'kalaga', 'juustu',
-                'võiga', 'soola', 'suhkru', 'jahuga', 'riisi', 'tatart'
-            ].filter(w => w.length === 5),
+                // Loomad
+                'jänes', 'orava', 'tiiger', 'konna', 'haigi', 'luige',
+                // Aga pigem nimetavas:
+                'jänes', 'tigu', 'kilpkonn',
+                // Linnud
+                'vares', 'rästas', 'kotkas',
+                // Toit ja söögid
+                'pirni', 'õunad', 'kapsas', 'sibul', 'porgand', 'redis',
+                // Aga nimetavas:
+                'pirn', 'sibul', 'redis', 'salat', 'leiba', 'vorst', 'juust',
+                // Kehaosad
+                'hammas', 'ranne', 'põlve',
+                // Esemed
+                'pliiats', 'vihik', 'raamat',
+                // Kohad
+                'haigla', 'apteek', 'teater', 'muuseum',
+                // Muu
+                'pilve', 'tähed'
+            ],
 
+            // 6+ letter words
             6: [
-                'emakene', 'isakene', 'lapseke', 'poisike', 'tüdrukuke',
-                'vanemad', 'vanaema', 'vanaisa', 'õdekene', 'veneke',
-                'koerake', 'kassike', 'hiireke', 'linnuke', 'kalake',
-                'karuke', 'hundike', 'rebaseke', 'jäneseke', 'oravake',
-                'hobuseke', 'lehmake', 'lambake', 'kitseke', 'konnake',
-                'majake', 'koduke', 'tubake', 'saunake', 'aedake',
-                'metsake', 'järveke', 'mereke', 'rannake', 'mägeke',
-                'päevake', 'ööke', 'suveke', 'talveke', 'lumeke',
-                'vihmake', 'tuuleke', 'päikeseke', 'kuuke', 'täheke',
-                'ilusake', 'suureke', 'väikeseke', 'heake', 'uueke',
-                'vanake', 'nooreke', 'kuumake', 'külmake', 'pimedake',
-                'heledake', 'mustake', 'valgeke', 'punaseke', 'siniseke',
-                'lauake', 'toolike', 'voodike', 'kappike', 'lambike',
-                'leibake', 'piimake', 'munake', 'lihake', 'kalake',
-                'raamat', 'pliiats', 'kustukumm', 'vihik', 'koolikott',
-                'arvuti', 'telefon', 'televiisor', 'raadio', 'muusika',
-                'joonistus', 'maaling', 'foto', 'video', 'mäng',
-                'jalgratas', 'tõukeratas', 'rulluisud', 'uisud', 'suusad',
-                'kelk', 'pall', 'nukk', 'auto', 'lennuk', 'laev', 'rong',
-                'kiik', 'liivakast', 'ronimispuu', 'liumägi',
-                'hommikusöök', 'lõunasöök', 'õhtusöök', 'vahepala',
-                'puder', 'supp', 'praad', 'salat', 'magustoit',
-                'jäätis', 'kook', 'küpsis', 'komm', 'šokolaad',
-                'apelsin', 'banaan', 'õunamahl', 'pirnimahl', 'maasikas',
-                'vaarikas', 'mustikas', 'pohl', 'jõhvikas'
-            ].filter(w => w.length >= 6)
+                // Perekond
+                'vanaema', 'vanaisa', 'sõber', 'naaber',
+                // Ametid
+                'õpetaja', 'arstid', 'kokk', 'müüja', 'juuksur', 'ehitaja', 'kunstnik', 'laulja',
+                // Loomad
+                'elevant', 'kaelkirjak', 'krokodill', 'pingviin', 'delfiin', 'liblikas',
+                // Toit
+                'apelsin', 'banaan', 'maasikas', 'mustikas', 'vaarikas', 'jäätis', 'šokolaad',
+                // Esemed
+                'arvuti', 'telefon', 'televiisor', 'raamat', 'pliiats', 'koolikott', 'jalgratas',
+                // Riided
+                'särk', 'püksid', 'kleit', 'jope', 'müts', 'kindad', 'sokid', 'saapad',
+                // Kohad
+                'lasteaed', 'mänguväljak', 'raamatukogu',
+                // Muu
+                'päike', 'vikerkaar', 'lumememm'
+            ]
         };
 
-        // Add more common Estonian words
-        words[3] = ['ema', 'isa', 'onu', 'puu', 'maa', 'tee', 'suu', 'pea', 'ahi', 'uks', 'ots', 'osa', 'aeg', 'jää', 'õun', 'sai', 'auto', 'söö', 'joo', 'loe', 'õpi', 'too', 'tule', 'mine', 'ole', 'tea', 'näe', 'kuule', 'räägi'];
-        words[3] = words[3].filter(w => w.length === 3);
+        // Cleaned up word lists - all nominative case
+        words[3] = ['ema', 'isa', 'onu', 'puu', 'maa', 'tee', 'aed', 'org', 'soo', 'oja', 'suu', 'pea', 'sai', 'uss', 'ahi', 'uks', 'ots', 'osa', 'aeg', 'jää', 'õun', 'tõi', 'sõi', 'jõi', 'vee'];
 
-        words[4] = ['kass', 'koer', 'hiir', 'kala', 'lind', 'karu', 'hunt', 'maja', 'kodu', 'tuba', 'saun', 'mets', 'jõgi', 'järv', 'meri', 'rand', 'päev', 'lumi', 'vihm', 'tuul', 'pilv', 'kuum', 'külm', 'must', 'leib', 'piim', 'muna', 'liha', 'sool', 'jalg', 'käsi', 'nina', 'silm', 'kõrv', 'pood', 'kool', 'rong', 'buss', 'laev', 'tool', 'lamp', 'kell', 'sein', 'õues', 'sees', 'peal', 'all', 'kõrval'];
-        words[4] = words[4].filter(w => w.length === 4);
+        words[4] = [
+            // Loomad
+            'kass', 'koer', 'hiir', 'kala', 'lind', 'karu', 'hunt', 'orav', 'siil', 'konn', 'part', 'hani', 'siga', 'lehm', 'kits', 'mutt', 'kull', 'tuvi', 'luik', 'haug', 'karp',
+            // Kehaosad
+            'jalg', 'käsi', 'nina', 'silm', 'kõrv', 'sõrm', 'kael', 'selg', 'nahk', 'keel', 'süda', 'juus', 'kõht',
+            // Hooned ja kohad
+            'maja', 'kodu', 'tuba', 'saun', 'mets', 'rand', 'sild', 'pood', 'kool', 'kiik', 'turg', 'park',
+            // Loodus
+            'jõgi', 'järv', 'meri', 'mägi', 'pilv', 'lumi', 'vihm', 'tuul', 'päev', 'täht', 'vesi', 'tuli', 'muld',
+            // Toit
+            'leib', 'piim', 'muna', 'liha', 'sool', 'kook', 'supp', 'tee', 'mesi', 'õun', 'pirn',
+            // Esemed
+            'tool', 'lamp', 'kell', 'sein', 'pilt', 'vaip', 'kapp', 'pall', 'nukk', 'kelk', 'laud', 'padi', 'tekk', 'pott', 'tass', 'nuga',
+            // Transport
+            'rong', 'buss', 'laev', 'auto', 'paat',
+            // Värvid
+            'must', 'hall',
+            // Muu
+            'raha', 'aega', 'õhtu', 'päev', 'kiri', 'pidu'
+        ].filter(w => w.length === 4);
 
-        words[5] = ['hobune', 'lehma', 'lammas', 'kitse', 'orav', 'siil', 'konn', 'kilpkonn', 'liblikas', 'sipelgas', 'jänes', 'rebane', 'kukk', 'part', 'hani', 'luik', 'haigur', 'kotkas', 'kull', 'öökull', 'vares', 'varblane', 'tihane', 'pääsuke', 'kägu', 'rähn', 'tuvi', 'kajakas', 'luige', 'suur', 'väike', 'pikk', 'ilus', 'naljakas', 'kurb', 'rõõmus', 'vihane', 'väsinud', 'näljane', 'janune', 'unine', 'terve', 'haige', 'tugev', 'nõrk', 'kiire', 'aeglane', 'tark', 'rumal', 'julge', 'arg', 'hea', 'halb', 'kena', 'kole', 'armas', 'õel', 'lahke', 'kuri', 'vaikne', 'vali', 'pehme', 'kõva', 'märg', 'kuiv', 'puhas', 'must'];
-        words[5] = words[5].filter(w => w.length === 5);
+        var random_words = [
+            // Loomad
+            'jänes', 'orav', 'kartul', 'hobune', 'koeral', 'kassil', 'ahven', 'suhkur', 'valge', 'pruun',
+            // Õiged nimetavad:
+            'jänes', 'rebane', 'ilves', 'põder', 'hirv', 'metssiga',
+            'siil', 'mutt', 'konn', 'sisalik', 'rott', 'hamster',
+            // Linnud
+            'vares', 'harakas', 'kotkas', 'kukk', 'kana', 'kalkun',
+            'part', 'hani', 'luik', 'kajakas', 'tuvi', 'varblane',
+            // Putukad ja muud
+            'sipelgas', 'mesilane', 'liblikas', 'ämblik', 'kilpkonn',
+            // Kalad
+            'haug', 'ahven', 'latikas', 'karp', 'siig', 'forell',
+            // Toit
+            'pirn', 'ploom', 'kirsid', 'õun', 'sibul', 'kapsas',
+            'porgand', 'redis', 'kurk', 'tomat', 'salat', 'kartul',
+            'vorst', 'sink', 'juust', 'jogurt', 'kohv', 'kakao',
+            'puder', 'pannkook', 'kringel', 'sai',
+            // Kehaosad
+            'hammas', 'ranne', 'põlv', 'puus', 'rind', 'lõug',
+            'kulm', 'huul', 'kand', 'varbad', 'sääred',
+            // Esemed
+            'pliiats', 'vihik', 'paber', 'käärid', 'liim', 'pintsel',
+            'kamm', 'hari', 'nõel', 'niit', 'nööp', 'lukk',
+            'võti', 'kett', 'paelad', 'kott', 'seljakott',
+            // Mööbel
+            'voodi', 'diivan', 'peegel', 'kardin', 'lühter',
+            // Riided
+            'särk', 'pluus', 'vest', 'jope', 'mantel', 'kleit',
+            'seelik', 'püksid', 'sokid', 'kindad', 'müts', 'sall', 'lips',
+            // Kohad
+            'haigla', 'apteek', 'teater', 'kino', 'kohvik', 'restoran',
+            'hotell', 'sadam', 'jaam', 'lennujaam',
+            // Loodus
+            'meri', 'järv', 'jõgi', 'oja', 'tiik', 'rand',
+            'mägi', 'küngas', 'org', 'lagendik', 'niit', 'põld',
+            'mets', 'park', 'aed', 'õu',
+            // Ilm
+            'päike', 'pilved', 'vihm', 'lumi', 'rahe', 'jää',
+            'tuul', 'torm', 'udu', 'kaste', 'härmatis',
+            // Muu
+            'number', 'tähed', 'sõnad', 'laused', 'raamat', 'leht',
+            // Perekond
+            'vanaema', 'vanaisa', 'vanemad', 'lapsed', 'õde', 'vend',
+            'sõber', 'sõbranna', 'naaber',
+            // Ametid
+            'õpetaja', 'arst', 'kokk', 'müüja', 'juuksur', 'ehitaja',
+            'kunstnik', 'laulja', 'tantsija', 'näitleja', 'kirjanik',
+            'politseinik', 'tuletõrjuja', 'autojuht', 'piloot', 'kapten',
+            'aednik', 'sportlane', 'treener', 'fotograaf',
+            // Loomad
+            'elevant', 'kaelkirjak', 'krokodill', 'ninasarvik', 'jõehobu',
+            'sebra', 'lõvi', 'tiiger', 'leopard', 'gepard', 'kaamel',
+            'känguru', 'koaala', 'panda', 'pingviin', 'delfiin',
+            'vaal', 'hai', 'kilpkonn', 'krokodill',
+            'liblikas', 'lepatriinu', 'herilane', 'sääsk', 'kärbes',
+            // Linnud
+            'papagoi', 'flamingo', 'jaanalind', 'öökull', 'pistrik',
+            // Toit ja joogid
+            'apelsin', 'sidrun', 'greip', 'mandariin', 'ananass',
+            'banaan', 'mango', 'kiivi', 'granaatõun', 'avokaado',
+            'maasikas', 'mustikas', 'vaarikas', 'sõstar', 'karusmari',
+            'arbuus', 'meloni', 'viinamari',
+            'kartul', 'porgand', 'peet', 'kapsas', 'lillkapsas',
+            'brokkoli', 'paprika', 'baklažaan', 'suvikõrvits',
+            'jäätis', 'šokolaad', 'kommid', 'küpsised', 'kringel',
+            'pannkook', 'vahvel', 'tordid',
+            // Esemed ja tehnoloogia
+            'arvuti', 'telefon', 'televiisor', 'raadio', 'kaamera',
+            'printer', 'klaviatuur', 'hiir', 'ekraan', 'kõlarid',
+            'kõrvaklapid', 'laadija', 'aku', 'juhe', 'pistik',
+            'raamat', 'pliiats', 'pastapliiats', 'vildika', 'marker',
+            'kustukumm', 'teritaja', 'joonlaud', 'kolmnurk', 'sirkel',
+            'koolikott', 'seljakott', 'ranits', 'pinal', 'vihik', 'kaustik',
+            // Mööbel
+            'diivan', 'tugitool', 'riidekapp', 'raamaturiiul', 'kirjutuslaud',
+            // Transport
+            'jalgratas', 'tõukeratas', 'mootorratas', 'auto', 'veoauto',
+            'buss', 'trollibus', 'tramm', 'rong', 'lennuk', 'helikopter',
+            'laev', 'paat', 'jahi', 'kaater',
+            // Riided
+            'kampsun', 'pusa', 'dressid', 'teksad', 'lühikesed püksid',
+            'sukkpüksid', 'aluspüksid', 'rinnahoidja',
+            'sussid', 'sandaalid', 'ketsid', 'saapad', 'kummikud',
+            // Kohad ja hooned
+            'lasteaed', 'kool', 'ülikool', 'raamatukogu', 'muuseum',
+            'teater', 'kino', 'kontserdisaal', 'staadion', 'spordisaal',
+            'ujula', 'bassein', 'saun',
+            'haigla', 'polikliinik', 'apteek', 'hambaravi',
+            'toidupood', 'kaubamaja', 'turuhoone', 'kohvik', 'restoran',
+            'hotell', 'hostel',
+            'raudteejaam', 'bussijaam', 'lennujaam', 'sadam',
+            'mänguväljak', 'loomaaed', 'botaanikaaed', 'lõbustuspark',
+            // Loodus
+            'vikerkaar', 'lumememm', 'lumehelves', 'jääpurikas',
+            'äike', 'välk', 'pikne',
+            'taimed', 'lilled', 'puud', 'põõsad', 'rohi', 'sammal', 'seened',
+            // Tähtpäevad
+            'sünnipäev', 'jõulud', 'lihavõtted', 'jaanipäev', 'halloween',
+            // Muu
+            'number', 'tähed', 'sõnad', 'lause', 'jutt', 'muinasjutt'
+        ];
 
-        words[6] = ['vanaema', 'vanaisa', 'emme', 'issi', 'õde', 'vend', 'tädi', 'onu', 'nõbu', 'sõber', 'sõbranna', 'naaber', 'õpetaja', 'arst', 'kokk', 'müüja', 'juuksur', 'politseinik', 'tuletõrjuja', 'ehitaja', 'autojuht', 'lennuki', 'kapten', 'laevnik', 'kunstnik', 'kirjanik', 'laulja', 'tantsija', 'näitleja', 'sportlane', 'jalgrattur', 'suusataja', 'uisutaja', 'ujuja', 'jooksja', 'hüppaja', 'korvpallur', 'jalgpallur', 'tennisist', 'maletaja', 'kalastaja', 'jahimees', 'aednik', 'farmer', 'loomaarst', 'raamat', 'pliiats', 'pastapliiats', 'vildik', 'pintsel', 'joonlaud', 'käärid', 'liim', 'kustukumm', 'teritaja', 'vihik', 'kaustik', 'päevik', 'õpik', 'töövihik', 'sõnaraamat', 'entsüklopeedia', 'ajakiri', 'ajaleht', 'koolikott', 'ranits', 'pinal', 'riidekapp', 'sahtlid', 'laud', 'tool', 'tugitool', 'diivan', 'voodi', 'madrats', 'padi', 'tekk', 'lina', 'vaip', 'kardin', 'lamp', 'lühter', 'peegel', 'pilt', 'foto', 'kell', 'televiisor', 'raadio', 'arvuti', 'tahvelarvuti', 'nutitelefon', 'kõrvaklapid', 'laadija', 'juhe', 'pistik', 'lüliti', 'külmkapp', 'sügavkülmik', 'pliit', 'ahi', 'mikrolaineahi', 'veekeetja', 'kohvimasin', 'röster', 'mikser', 'tolmuimeja', 'pesumasin', 'nõudepesumasin', 'triikraud'];
-        words[6] = words[6].filter(w => w.length >= 6);
+        words[5] = random_words.filter(w => w.length === 5);
+
+        words[6] = random_words.filter(w => w.length >= 6);
 
         let currentCategory = null;
         let usedWords = [];
@@ -313,6 +426,19 @@
             display.offsetHeight; // Trigger reflow
             display.style.animation = 'fadeIn 0.5s ease';
             display.textContent = word;
+
+            // Adjust font size based on word length
+            if (word.length <= 5) {
+                display.style.fontSize = '8rem';
+            } else if (word.length <= 7) {
+                display.style.fontSize = '6rem';
+            } else if (word.length <= 10) {
+                display.style.fontSize = '4.5rem';
+            } else if (word.length <= 13) {
+                display.style.fontSize = '3.5rem';
+            } else {
+                display.style.fontSize = '2.5rem';
+            }
 
             // Random color for each word
             const colors = ['#FFE66D', '#FF6B6B', '#4ECDC4', '#95E1D3', '#F8B500', '#FF8C00', '#00CED1', '#FF69B4'];
